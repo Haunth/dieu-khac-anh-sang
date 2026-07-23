@@ -1,13 +1,6 @@
 services:
   app:
-    image: ${APP_IMAGE:-dieu-khac-anh-sang:local}
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
-        NEXT_PUBLIC_ASSET_BASE_URL: ${NEXT_PUBLIC_ASSET_BASE_URL:?NEXT_PUBLIC_ASSET_BASE_URL is required}
-        NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: ${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY:?NEXT_SERVER_ACTIONS_ENCRYPTION_KEY is required}
+    image: ${APP_IMAGE:?APP_IMAGE is required}
     restart: unless-stopped
     depends_on:
       db:
