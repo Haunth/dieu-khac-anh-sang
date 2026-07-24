@@ -1,0 +1,25 @@
+ARG NODE_VERSION=24.13.0-slim
+
+FROM node:${NODE_VERSION}
+
+WORKDIR /app
+
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
+
+RUN corepack enable \
+    && corepack prepare pnpm@9.15.4 --activate
+
+# Copy dependency manifests first to preserve the Docker build cache.
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc* ./
+
+RUN pnpm install --frozen-lockfile
+
+# Copy the application source into the development image.
+COPY . .
+
+EXPOSE 3000
+
+CMD ["pnpm", "dev", "--hostname", "0.0.0.0"]
